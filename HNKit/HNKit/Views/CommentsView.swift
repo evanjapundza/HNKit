@@ -40,7 +40,6 @@ struct CommentsView: View {
                 }
             }
         }
-        .tint(.blue)
     }
 }
 
@@ -101,7 +100,16 @@ struct CommentView: View {
                         Text(plainText)
                             .font(.body)
                             .lineLimit(nil)
+                            .textSelection(.enabled)
                         Spacer()
+                    }
+                    
+                    if let nestedComments = comment.nestedComments {
+                        ForEach(nestedComments) { nestedComment in
+                            CommentView(comment: nestedComment, indentationLevel: indentationLevel + 1)
+                                .padding(10)
+                            
+                        }
                     }
                     
                 }
@@ -114,19 +122,14 @@ struct CommentView: View {
                     }
                 }
             }
-            .frame(maxHeight: .infinity)
-            .padding(.leading, CGFloat(indentationLevel) * 20)
+//            .frame(maxHeight: .infinity)
+//            .padding(.leading, CGFloat(indentationLevel) * 10)
 //            .offset(x: CGFloat(indentationLevel)*20)
             
-            if let nestedComments = comment.nestedComments {
-                ForEach(nestedComments) { nestedComment in
-                    CommentView(comment: nestedComment, indentationLevel: indentationLevel + 1)
-                        .padding(5)
-                    
-                }
-            }
+            
         }
-        .frame(maxHeight: .infinity)
+        .fixedSize(horizontal: false, vertical: true)
+//        .frame(maxHeight: .infinity)
     }
 }
 //

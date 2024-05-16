@@ -13,10 +13,19 @@ struct HomeView: View {
     
     @State var sheetPresented: Bool = false
     
+    init() {
+      // Large Navigation Title
+      UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: viewModel.selectedTheme.H]
+      // Inline Navigation Title
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: viewModel.selectedTheme.H]
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
 
+                Color(viewModel.selectedTheme.B) // #ecefff
+                    .ignoresSafeArea()
                 
                 if viewModel.isLoading {
                     ProgressView()
@@ -24,6 +33,18 @@ struct HomeView: View {
                 } else {
                     ScrollView {
                         VStack(alignment: .leading) {
+                            HStack {
+                                Spacer()
+                                
+                                Text(Date.now.formatted(date: .long, time: .omitted))
+                                    .font(.title)
+                                    .bold()
+                                    .padding(.horizontal)
+                                    .foregroundStyle(Color(viewModel.selectedTheme.H))
+                                
+                                Spacer()
+                            }
+                            
                             TabView {
                                 
                                 topStoryView
@@ -34,8 +55,8 @@ struct HomeView: View {
                             .frame(minHeight: 400)
                             .tabViewStyle(.page(indexDisplayMode: .always))
                             .onAppear {
-                                UIPageControl.appearance().currentPageIndicatorTintColor = .gray
-                                UIPageControl.appearance().pageIndicatorTintColor = UIColor.gray.withAlphaComponent(0.4)
+                                UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(red: 0.341, green: 0.235, blue: 0.98, alpha: 1)
+                                UIPageControl.appearance().pageIndicatorTintColor = UIColor(red: 0.341, green: 0.235, blue: 0.98, alpha: 1).withAlphaComponent(0.4)
                             }
                             
                             topStoriesView
@@ -46,24 +67,23 @@ struct HomeView: View {
                         }
                     }
                     
-                    //                .toolbar {
-                    //                    ToolbarItem {
-                    //                        Button(action: {
-                    //                            sheetPresented = true
-                    //                        }, label: {
-                    //                            Image(systemName: "gearshape.fill")
-                    //                                .foregroundStyle(.black)
-                    //                        })
-                    //                    }
-                    //                }
+                    .toolbar {
+                        ToolbarItem {
+                            
+                            NavigationLink {
+                                SettingsView()
+                                    .environmentObject(viewModel)
+                            } label: {
+                                Image(systemName: "gearshape.fill")
+                                    .foregroundStyle(Color(viewModel.selectedTheme.F))
+                            }
+                        }
+                    }
                 }
             }
-            .navigationTitle("HN Home")
-            .tint(.accentColor)
+            .navigationTitle("Home")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .sheet(isPresented: $sheetPresented, content: {
-            SettingsView()
-        })
         .onAppear {
             viewModel.fetchTopStories()
             viewModel.fetchTopJobs()
@@ -74,15 +94,13 @@ struct HomeView: View {
         VStack(alignment: .leading) {
             Text("TOP STORY")
                 .font(.system(size: 12, design: .monospaced))
-                .foregroundStyle(.gray)
+                .foregroundStyle(Color(viewModel.selectedTheme.G))
                 .padding(.horizontal)
             
             NavigationLink {
                 if let topstory = viewModel.topStories.first {
-                    if let topstoryURL = topstory.url {
-                        DetailView(itemURL: topstoryURL, itemKids: topstory.kids, itemID: topstory.id)
-                            .environmentObject(viewModel)
-                    }
+                    DetailView(story: topstory, itemType: ItemType.story)
+                        .environmentObject(viewModel)
                 }
             } label: {
                 
@@ -94,14 +112,13 @@ struct HomeView: View {
                         GeometryReader { reader in
                             VStack(spacing: 0) {
                                 VStack(alignment: .leading) {
-                                    
+                                    Spacer()
                                     HStack {
                                         Text(topstory.title)
                                             .multilineTextAlignment(.leading)
-//                                            .font(.largeTitle)
                                             .font(.system(size: 48))
                                             .minimumScaleFactor(0.6)
-//                                        Spacer()
+                                            .foregroundStyle(Color(viewModel.selectedTheme.A))
                                     }
                                     
                                     Spacer()
@@ -111,6 +128,7 @@ struct HomeView: View {
                                         .font(.system(size: 12, design: .monospaced))
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.85)
+                                        .foregroundStyle(Color(viewModel.selectedTheme.A))
                                 }
                                 .padding()
                                 .frame(width: reader.size.width, height: reader.size.height * 0.75)
@@ -118,18 +136,21 @@ struct HomeView: View {
                                 
                                 VStack(alignment: .leading, spacing: 5) {
                                     
-                                    LinearGradient(colors: [colorScheme == .dark ? .black : .white, Color(.sRGB, white: 0.85, opacity: 1)], startPoint: .top, endPoint: .bottom)
+                                    LinearGradient(colors: [Color(red: 0.604, green: 0.643, blue: 1), Color(red: 0.357, green: 0.314, blue: 1)], startPoint: .top, endPoint: .bottom)
                                         .frame(height: 4)
                                         .opacity(0.8)
                                         .padding(.horizontal, -20)
                                         .padding(.top, -20)
                                     
                                     Text("\(topstory.by) • \(topstory.relativeTimeString)")
+                                        .foregroundStyle(Color(viewModel.selectedTheme.A))
                                     
                                     HStack {
                                         Text("\(topstory.descendants) comments")
+                                            .foregroundStyle(Color(viewModel.selectedTheme.A))
                                         
                                         Text("↑\(topstory.score)")
+                                            .foregroundStyle(Color(viewModel.selectedTheme.A))
                                         
                                     }
                                 }
@@ -140,11 +161,11 @@ struct HomeView: View {
                     }
                     Spacer()
                 }
-                .foregroundStyle(.black)
+                .foregroundStyle(Color(viewModel.selectedTheme.A))
                 .frame(height: 320)
-                .background(colorScheme == .dark ? .black : .white)
+                .background(LinearGradient(gradient: Gradient(colors: [Color(red: 0.443, green: 0.451, blue: 1), Color(red: 0.357, green: 0.314, blue: 1)]), startPoint: .top, endPoint: .bottom))
                 .clipShape(RoundedRectangle(cornerRadius: 15))
-                .shadow(color: .gray, radius: 4, x: -1, y: 2)
+                .shadow(color: Color(viewModel.selectedTheme.L), radius: 4, x: -1, y: 2)
                 .padding(.horizontal)
             }
             
@@ -157,15 +178,13 @@ struct HomeView: View {
         VStack(alignment: .leading) {
             Text("TOP JOB")
                 .font(.system(size: 12, design: .monospaced))
-                .foregroundStyle(.gray)
+                .foregroundStyle(Color(viewModel.selectedTheme.G))
                 .padding(.horizontal)
             
             NavigationLink {
                 if let topJob = viewModel.topJobs.first {
-                    if let topJobURL = topJob.url {
-                        DetailView(itemURL: topJobURL)
-                            .environmentObject(viewModel)
-                    }
+                    DetailView(job: topJob, itemType: ItemType.job)
+                        .environmentObject(viewModel)
                 }
             } label: {
                 VStack(alignment: .leading) {
@@ -193,11 +212,11 @@ struct HomeView: View {
                     }
                 }
             }
-            .foregroundStyle(.black)
+            .foregroundStyle(Color(viewModel.selectedTheme.A))
             .frame(height: 320)
-            .background(colorScheme == .dark ? .black : .white)
+            .background(LinearGradient(gradient: Gradient(colors: [Color(red: 0.443, green: 0.451, blue: 1), Color(red: 0.357, green: 0.314, blue: 1)]), startPoint: .top, endPoint: .bottom))
             .clipShape(RoundedRectangle(cornerRadius: 15))
-            .shadow(color: .gray, radius: 4, x: -1, y: 2)
+            .shadow(color: Color(viewModel.selectedTheme.L), radius: 4, x: -1, y: 2)
             .padding(.horizontal)
 
             Spacer()
@@ -209,7 +228,7 @@ struct HomeView: View {
             HStack {
                 Text("TOP STORIES")
                     .font(.system(size: 12, design: .monospaced))
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(Color(viewModel.selectedTheme.G))
                 
                 Spacer()
                 
@@ -217,25 +236,27 @@ struct HomeView: View {
                     ListView(listType: .story)
                         .environmentObject(viewModel)
                 } label: {
-                    Text("SEE ALL")
-                        .font(.system(size: 12, design: .monospaced))
-                        .foregroundStyle(.blue)
+                    HStack {
+                        Text("SEE ALL")
+                            
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(Color(viewModel.selectedTheme.F))
+                    .font(.system(size: 12, design: .monospaced))
                 }
                 
             }
             
             Rectangle()
-                .foregroundStyle(.black)
+                .foregroundStyle(Color(red: 0.357, green: 0.314, blue: 1))
                 .frame(maxWidth: .infinity, maxHeight: 1)
             
             List {
                 ForEach(viewModel.topStories.prefix(5)) { story in
                     
                     NavigationLink {
-                        if let storyURL = story.url {
-                            DetailView(itemURL: storyURL, itemKids: story.kids, itemID: story.id)
-                                .environmentObject(viewModel)
-                        }
+                        DetailView(story: story, itemType: ItemType.story)
+                            .environmentObject(viewModel)
                     } label: {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(story.title)
@@ -251,13 +272,17 @@ struct HomeView: View {
                                 Text("\(story.relativeTimeString)")
                             }
                             .font(.system(size: 10, design: .monospaced))
-                            .foregroundColor(.secondary)
                         }
-                        .listRowSeparatorTint(.gray)
+                        .onTapGesture {  }
+                        .onLongPressGesture{ print("longPressed", story)}
                         .listRowSeparator(.automatic, edges: .all)
                         .padding(5)
                         .padding(.horizontal, -10)
                     }
+                    .foregroundStyle(Color(viewModel.selectedTheme.A))
+                    .listRowBackground(Color(red: 0.357, green: 0.314, blue: 1))
+                    .listRowSeparatorTint(Color(red: 0.188, green: 0.137, blue: 0.549))
+                    
                     
                 }
             }
@@ -265,7 +290,7 @@ struct HomeView: View {
             .padding(.vertical, -20)
             .padding(.horizontal, -15)
             .clipShape(RoundedRectangle(cornerRadius: 15))
-            .shadow(color: .gray, radius: 4, x: -1, y: 2)
+            .shadow(color: Color(viewModel.selectedTheme.L), radius: 4, x: -1, y: 2)
             .scrollContentBackground(.hidden)
             .frame(height: 425)
         }
@@ -277,7 +302,7 @@ struct HomeView: View {
             HStack {
                 Text("TOP JOBS")
                     .font(.system(size: 12, design: .monospaced))
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(Color(viewModel.selectedTheme.G))
                 
                 Spacer()
                 
@@ -285,45 +310,45 @@ struct HomeView: View {
                     ListView(listType: .job)
                         .environmentObject(viewModel)
                 } label: {
-                    Text("SEE ALL")
-                        .font(.system(size: 12, design: .monospaced))
-                        .foregroundStyle(.blue)
+                    HStack {
+                        Text("SEE ALL")
+                        
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(Color(viewModel.selectedTheme.F))
+                    .font(.system(size: 12, design: .monospaced))
                 }
                 
             }
             
             Rectangle()
-                .foregroundStyle(.black)
+                .foregroundStyle(Color(red: 0.357, green: 0.314, blue: 1))
                 .frame(maxWidth: .infinity, maxHeight: 1)
             
             List {
                 ForEach(viewModel.topJobs.prefix(5)) { job in
                     
                     NavigationLink {
-                        if let jobURL = job.url {
-                            DetailView(itemURL: jobURL)
-                                .environmentObject(viewModel)
-                        } else {
-                            if let jobText = job.text {
-                                DetailView(itemText: jobText)
-                                    .environmentObject(viewModel)
-                            }
-                        }
+                        DetailView(job: job, itemType: ItemType.job)
+                            .environmentObject(viewModel)
                     } label: {
                         Text(job.title)
+                            .foregroundStyle(Color(viewModel.selectedTheme.A))
                             .font(.system(size: 12, design: .monospaced))
-                            .listRowSeparatorTint(.gray)
                             .listRowSeparator(.automatic, edges: .all)
                             .padding(8)
                             .padding(.horizontal, -15)
                     }
+                    .foregroundStyle(Color(viewModel.selectedTheme.A))
+                    .listRowBackground(Color(red: 0.357, green: 0.314, blue: 1))
+                    .listRowSeparatorTint(Color(red: 0.188, green: 0.137, blue: 0.549))
                     
                 }
             }
             .scrollDisabled(true)
             .padding(-15)
             .clipShape(RoundedRectangle(cornerRadius: 15))
-            .shadow(color: .gray, radius: 4, x: -1, y: 2)
+            .shadow(color: Color(viewModel.selectedTheme.L), radius: 4, x: -1, y: 2)
             .scrollContentBackground(.hidden)
             .frame(height: 450)
         }

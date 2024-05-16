@@ -20,14 +20,18 @@ struct ListView: View {
     
     var body: some View {
         NavigationStack {
-            switch listType {
-            case .story:
-                storyList
-            case .job:
-                jobList
+            ZStack {
+                Color(red: 0.925, green: 0.937, blue: 1) // #ecefff
+                    .ignoresSafeArea()
+                
+                switch listType {
+                case .story:
+                    storyList
+                case .job:
+                    jobList
+                }
             }
         }
-        .tint(.blue)
         .navigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea(edges: .bottom)
         
@@ -36,123 +40,103 @@ struct ListView: View {
     var storyList: some View {
         VStack(alignment: .leading) {
             
-            
-            List {
+            ScrollView {
                 VStack {
                     HStack {
                         Text("TOP STORIES")
                             .font(.system(size: 28, design: .monospaced))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(Color(red: 0.341, green: 0.235, blue: 0.98))
                         
                         Spacer()
                         
                     }
                     
                     Rectangle()
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(red: 0.341, green: 0.235, blue: 0.98))
                         .frame(maxWidth: .infinity, maxHeight: 1)
                 }
-                .listRowSeparator(.hidden)
-                .listRowInsets(.none)
+                .padding(.horizontal)
                 
-                ForEach(viewModel.topStories) { story in
-                    
-                    NavigationLink {
-                        if let storyURL = story.url {
-                            DetailView(itemURL: storyURL, itemKids: story.kids, itemID: story.id)
+                LazyVStack {
+                    ForEach(viewModel.topStories) { story in
+                        NavigationLink {
+                            DetailView(story: story, itemType: ItemType.story)
                                 .environmentObject(viewModel)
-                        } else {
-                            if let storyText = story.text {
-                                DetailView(itemText: storyText, itemKids: story.kids, itemID: story.id)
-                                    .environmentObject(viewModel)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(story.title)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.system(size: 14, design: .monospaced))
+                                
+                                HStack {
+                                    Text("\(story.descendants) comments")
+                                    Image(systemName: "arrow.up")
+                                    Text("\(story.score)")
+                                    Spacer()
+                                    Text(story.by)
+                                    Text("•")
+                                    Text("\(story.relativeTimeString)")
+                                }
+                                .font(.system(size: 12, design: .monospaced))
+                                .foregroundColor(.secondary)
                             }
                         }
-                    } label: {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(story.title)
-                                .font(.system(size: 14, design: .monospaced))
-                            
-                            HStack {
-                                Text("\(story.descendants) comments")
-                                Image(systemName: "arrow.up")
-                                Text("\(story.score)")
-                                Spacer()
-                                Text(story.by)
-                                Text("•")
-                                Text("\(story.relativeTimeString)")
-                            }
-                            .font(.system(size: 12, design: .monospaced))
-                            .foregroundColor(.secondary)
-                        }
-                        .frame(height: 75)
-                        .listRowSeparatorTint(.gray)
-                        .listRowSeparator(.automatic, edges: .all)
+                        .frame(minHeight: 15)
+                        .padding()
+                        
+                        Divider()
+                        
                     }
-                    
                 }
-                .listSectionSpacing(0)
-                .listRowInsets(EdgeInsets())
             }
-            .listStyle(.plain)
-            .scrollIndicators(.hidden)
-            .ignoresSafeArea(edges: .bottom)
-            .scrollContentBackground(.hidden)
             
             Spacer()
         }
-        .padding()
     }
     
     var jobList: some View {
         VStack(alignment: .leading) {
             
-            List {
+
+            
+            ScrollView {
                 VStack {
                     HStack {
                         Text("TOP JOBS")
                             .font(.system(size: 28, design: .monospaced))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(Color(red: 0.341, green: 0.235, blue: 0.98))
                         
                         Spacer()
                         
                     }
                     
                     Rectangle()
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(red: 0.341, green: 0.235, blue: 0.98))
                         .frame(maxWidth: .infinity, maxHeight: 1)
                 }
-                .listRowSeparator(.hidden)
-                .listRowInsets(.none)
+                .padding(.horizontal)
                 
-                ForEach(viewModel.topJobs) { job in
-                    
-                    NavigationLink {
-                        if let jobURL = job.url {
-                            DetailView(itemURL: jobURL)
+                LazyVStack(alignment: .leading) {
+                    ForEach(viewModel.topJobs) { job in
+                        NavigationLink {
+                            DetailView(job: job, itemType: ItemType.job)
                                 .environmentObject(viewModel)
-                        } else {
-                            if let jobText = job.text {
-                                DetailView(itemText: jobText)
-                                    .environmentObject(viewModel)
-                            }
+                        } label: {
+                            Text(job.title)
+                                .lineLimit(nil)
+                                .multilineTextAlignment(.leading)
+                                .font(.system(size: 14, design: .monospaced))
                         }
-                    } label: {
-                        Text(job.title)
-                            .frame(height: 75)
-                            .listRowSeparatorTint(.gray)
-                            .listRowSeparator(.automatic, edges: .all)
+                        .frame(minHeight: 30)
+                        .padding()
+
+                        
+                        Divider()
+                        
                     }
-                    
                 }
-                .listSectionSpacing(0)
-                .listRowInsets(EdgeInsets())
             }
-            .listStyle(.plain)
-            .scrollIndicators(.hidden)
-            .ignoresSafeArea(edges: .bottom)
-            .scrollContentBackground(.hidden)
         }
-        .padding()
     }
 }
 

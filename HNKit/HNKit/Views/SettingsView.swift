@@ -9,13 +9,22 @@ import SwiftUI
 
 struct SettingsView: View {
     // FUTURE UPDATE STUFF
+    
+    @State var themeSelectorPresented = false
+    @EnvironmentObject var viewModel: HackerNewsViewModel
+    
     var body: some View {
         NavigationStack {
             List {
                 Text("Upgrade to Premium")
                 
                 Section(header: Text("APPEARANCE")) {
-                    Text("Theme")
+                    Button(action: {
+                        themeSelectorPresented = true
+                    }, label: {
+                        Text("Theme")
+                    })
+                    
                 }
                 
                 Section {
@@ -24,6 +33,10 @@ struct SettingsView: View {
                     Text("Share")
                 }
             }
+            .sheet(isPresented: $themeSelectorPresented, content: {
+                ThemeSelector()
+                    .environmentObject(viewModel)
+            })
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle("Settings")
             

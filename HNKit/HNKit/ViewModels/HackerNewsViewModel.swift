@@ -1,7 +1,7 @@
 import Foundation
+import SwiftUI
 
 class HackerNewsViewModel: ObservableObject {
-    @Published var topStoryIDX: Int = 0
     @Published var topStories: [Story] = [
         Story(
             id: 00001,
@@ -60,6 +60,21 @@ class HackerNewsViewModel: ObservableObject {
     
     @Published var storyComments: [Comment] = []
     
+    @AppStorage("selectedTheme") var selectedThemeAS = 0 {
+        didSet {
+            updateTheme()
+        }
+    }
+    @Published var selectedTheme : Theme = Theme1()
+    
+    func updateTheme() {
+        selectedTheme = ThemeManager.getTheme(selectedThemeAS)
+    }
+    
+    init() {
+        updateTheme()
+    }
+    
     func fetchTopStories() {
         isLoading = true
         
@@ -105,6 +120,7 @@ class HackerNewsViewModel: ObservableObject {
                 }
             }
         }
+        
         
     }
     

@@ -141,7 +141,7 @@ struct Provider: AppIntentTimelineProvider {
                 entries.append(entry)
             }
         default:
-            let fetchedStories = await NetworkManager.shared.fetchStories()
+            _ = await NetworkManager.shared.fetchStories()
         }
         
         return Timeline(entries: entries, policy: .atEnd)
@@ -176,9 +176,11 @@ struct HackerWidgetEntryView : View {
         
         case .systemSmall:
             SmallWidgetView(storyIndex: storyIndex, entry: entry)
+                .preferredColorScheme(.light)
                 .ignoresSafeArea()
         case .systemMedium:
             MediumWidgetView(storyIndex: storyIndex, entry: entry)
+                .preferredColorScheme(.light)
         case .systemLarge:
             Text("not done yet")
         case .systemExtraLarge:

@@ -12,7 +12,8 @@ struct HNKitApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .preferredColorScheme(.light)
+//                .preferredColorScheme(.light)
+                .tint(Color(red: 0.122, green: 0.086, blue: 0.314))
         }
     }
 }
