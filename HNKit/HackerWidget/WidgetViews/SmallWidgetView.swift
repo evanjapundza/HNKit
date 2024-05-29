@@ -21,8 +21,7 @@ struct SmallWidgetView: View {
         ZStack {
             ContainerRelativeShape()
                 .fill(._1_B.gradient)
-            // raied widget
-            // raised platform
+            
             switch entry.itemType.id {
             case "Story":
                 storyView
@@ -104,7 +103,7 @@ struct SmallWidgetView: View {
                     .padding(5)
                 
             }
-            // need intent here because th';;p;e interactive widget
+
             Spacer()
             
         }

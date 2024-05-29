@@ -100,7 +100,7 @@ struct MediumWidgetView: View {
                         }
                         
                         Spacer()
-                        Button(intent: NextStory()){
+                        Button(intent: NextItem()){
                             Text("next")
                                 .frame(width: 30, height: 3)
                                 .font(.system(size: 12, design: .monospaced))
@@ -168,7 +168,7 @@ struct MediumWidgetView: View {
                     }
                     
                     Spacer()
-                    Button(intent: NextStory()){
+                    Button(intent: NextItem()){
                         Text("next")
                             .frame(width: 30, height: 3)
                             .font(.system(size: 12, design: .monospaced))

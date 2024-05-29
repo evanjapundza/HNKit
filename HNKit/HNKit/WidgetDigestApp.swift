@@ -14,7 +14,6 @@ struct HNKitApp: App {
         WindowGroup {
             HomeView()
                 .tint(Color(red: 0.318, green: 0.212, blue: 0.961))
-            
         }
     }
 }

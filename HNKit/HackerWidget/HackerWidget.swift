@@ -68,7 +68,6 @@ final class NetworkManager {
     }
     
     private func getTopTenStories() async -> [Story] {
-        // have this get the top ten stories and return it
         await withCheckedContinuation { continuation in
             HackerNewsAPI.shared.fetchTopStoryIDs { storyIDs in
                 guard let storyIDs = storyIDs else {
@@ -85,7 +84,6 @@ final class NetworkManager {
     }
     
     private func getTopTenJobs() async -> [Job] {
-        // have this get the top ten stories and return it
         await withCheckedContinuation { continuation in
             HackerNewsAPI.shared.fetchTopJobsIDs { jobIDs in
                 guard let jobIDs = jobIDs else {
@@ -118,10 +116,7 @@ struct Provider: AppIntentTimelineProvider {
     func timeline(for configuration: SelectItemType, in context: Context) async -> Timeline<SimpleEntry> {
         var entries: [SimpleEntry] = []
         
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        // woah
-
         
         switch configuration.itemType.id {
         case "Story":
@@ -157,10 +152,6 @@ struct SimpleEntry: TimelineEntry {
     let myStories: [Story]
     let myJobs: [Job]
 }
-// color for nuewmorhpic bros
-extension Color{
-    static let offWhite = Color(red: 243 / 255, green: 243 / 255, blue: 243 / 255)
-}
 
 struct HackerWidgetEntryView : View {
     @StateObject private var viewModel = HackerNewsViewModel()
@@ -176,11 +167,9 @@ struct HackerWidgetEntryView : View {
         
         case .systemSmall:
             SmallWidgetView(storyIndex: storyIndex, entry: entry)
-                .preferredColorScheme(.light)
                 .ignoresSafeArea()
         case .systemMedium:
             MediumWidgetView(storyIndex: storyIndex, entry: entry)
-                .preferredColorScheme(.light)
         case .systemLarge:
             Text("not done yet")
         case .systemExtraLarge:
@@ -205,7 +194,7 @@ struct HackerWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: SelectItemType.self, provider: Provider()) { entry in
             HackerWidgetEntryView(entry: entry)
-                .containerBackground(Color.offWhite, for: .widget)
+                .containerBackground(._1_B.gradient, for: .widget)
             
         }
         .supportedFamilies([.systemSmall, .systemMedium])
