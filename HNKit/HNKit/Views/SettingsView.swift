@@ -13,38 +13,51 @@ struct SettingsView: View {
     @State var themeSelectorPresented = false
     @EnvironmentObject var viewModel: HackerNewsViewModel
     
+    init() {
+            // Entire List Background
+        UITableView.appearance().backgroundColor = .red
+    }
+    
     var body: some View {
-        NavigationStack {
-            List {
-                Text("Upgrade to Premium")
-                
-                Section(header: Text("APPEARANCE")) {
-                    Button(action: {
-                        themeSelectorPresented = true
-                    }, label: {
-                        Text("Theme")
-                    })
+        ZStack {
+            Color(viewModel.selectedTheme.B)
+                .ignoresSafeArea()
+            
+            VStack {
+                List {
+                    
+                    Section {
+                        Button(action: {
+                            themeSelectorPresented = true
+                        }, label: {
+                            Text("Theme")
+                                .foregroundStyle(Color(viewModel.selectedTheme.F))
+                        })
+                        
+                    } header: {
+                        Text("Appearance")
+                    } footer: {
+                        Text("Additional settings will be added in future updates.")
+                            .padding()
+                    }
+                    
+                    
                     
                 }
-                
-                Section {
-                    Text("About")
-                    Text("Rate")
-                    Text("Share")
-                }
+                .sheet(isPresented: $themeSelectorPresented, content: {
+                    ThemeSelector()
+                        .environmentObject(viewModel)
+                })
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("Settings")
             }
-            .sheet(isPresented: $themeSelectorPresented, content: {
-                ThemeSelector()
-                    .environmentObject(viewModel)
-            })
-            .navigationBarTitleDisplayMode(.large)
-            .navigationTitle("Settings")
-            
         }
+        
         
     }
 }
 
 #Preview {
     SettingsView()
+        .environmentObject(HackerNewsViewModel())
 }

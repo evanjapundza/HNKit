@@ -1,58 +1,59 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class HackerNewsViewModel: ObservableObject {
     @Published var topStories: [Story] = [
-        Story(
-            id: 00001,
-            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
-            url: "www.google.com",
-            score: 449,
-            time: 10.0,
-            by: "alt-glitch",
-            descendants: 49,
-            type: "story"
-        ),
-        Story(
-            id: 00002,
-            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
-            url: "www.google.com",
-            score: 449,
-            time: 10.0,
-            by: "alt-glitch",
-            descendants: 49,
-            type: "story"
-        ),
-        Story(
-            id: 00003,
-            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
-            url: "www.google.com",
-            score: 449,
-            time: 10.0,
-            by: "alt-glitch",
-            descendants: 49,
-            type: "story"
-        ),
-        Story(
-            id: 00004,
-            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
-            url: "www.google.com",
-            score: 449,
-            time: 10.0,
-            by: "alt-glitch",
-            descendants: 49,
-            type: "story"
-        ),
-        Story(
-            id: 00005,
-            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
-            url: "www.google.com",
-            score: 449,
-            time: 10.0,
-            by: "alt-glitch",
-            descendants: 49,
-            type: "story"
-        )
+//        Story(
+//            id: 00001,
+//            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
+//            url: "www.google.com",
+//            score: 449,
+//            time: 10.0,
+//            by: "alt-glitch",
+//            descendants: 49,
+//            type: "story"
+//        ),
+//        Story(
+//            id: 00002,
+//            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
+//            url: "www.google.com",
+//            score: 449,
+//            time: 10.0,
+//            by: "alt-glitch",
+//            descendants: 49,
+//            type: "story"
+//        ),
+//        Story(
+//            id: 00003,
+//            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
+//            url: "www.google.com",
+//            score: 449,
+//            time: 10.0,
+//            by: "alt-glitch",
+//            descendants: 49,
+//            type: "story"
+//        ),
+//        Story(
+//            id: 00004,
+//            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
+//            url: "www.google.com",
+//            score: 449,
+//            time: 10.0,
+//            by: "alt-glitch",
+//            descendants: 49,
+//            type: "story"
+//        ),
+//        Story(
+//            id: 00005,
+//            title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
+//            url: "www.google.com",
+//            score: 449,
+//            time: 10.0,
+//            by: "alt-glitch",
+//            descendants: 49,
+//            type: "story"
+//        )
     ]
     
     @Published var topJobs: [Job] = []
@@ -65,7 +66,7 @@ class HackerNewsViewModel: ObservableObject {
             updateTheme()
         }
     }
-    @Published var selectedTheme : Theme = Theme1()
+    @Published var selectedTheme : Theme = Default()
     
     func updateTheme() {
         selectedTheme = ThemeManager.getTheme(selectedThemeAS)
@@ -106,6 +107,8 @@ class HackerNewsViewModel: ObservableObject {
     }
     
     func fetchTopLevelComments(for storyID: Int, completion: @escaping () -> Void) {
+        
+        
         let story = topStories.first{ $0.id == storyID }
         storyComments = []
         if let story = story {
@@ -122,6 +125,40 @@ class HackerNewsViewModel: ObservableObject {
         }
         
         
+    }
+    
+    func fetchStory(withID id: Int) async -> Story? {
+        isLoading = true
+        
+        return await withCheckedContinuation { continuation in
+            HackerNewsAPI.shared.fetchStory(id: id) { story in
+                DispatchQueue.main.async {
+                    if let story = story {
+                        continuation.resume(returning: story)
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+    
+    func fetchJob(withID id: Int) async -> Job? {
+        isLoading = true
+        
+        return await withCheckedContinuation { continuation in
+            HackerNewsAPI.shared.fetchJob(id: id) { job in
+                DispatchQueue.main.async {
+                    if let job = job {
+                        continuation.resume(returning: job)
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                    self.isLoading = false
+                }
+            }
+        }
     }
     
     

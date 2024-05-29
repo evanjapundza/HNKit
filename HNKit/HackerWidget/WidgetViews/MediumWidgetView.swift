@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import Neumorphic
 
 
 struct MediumWidgetView: View {
@@ -20,52 +19,131 @@ struct MediumWidgetView: View {
     }
     
     var body: some View {
-        switch entry.configuration.itemType {
-        case "Story":
-            storyView
-                .widgetURL(URL(string: "HNKit://detailview/1"))
-        case "Job":
-            jobView
-        default:
-            storyView
+        ZStack {
+            ContainerRelativeShape()
+                .fill(._1_B.gradient)
+            
+            switch entry.itemType.id {
+            case "Story":
+                storyView
+                    .padding()
+            case "Job":
+                jobView
+                    .padding()
+            default:
+                storyView
+                    .padding()
+            }
         }
     }
     
     var storyView: some View {
+        ZStack {
+            VStack {
+                Text("TOP STORIES")
+                    .font(.system(size: 8, design: .monospaced))
+                    .foregroundStyle(._1_H)
+                
+                
+                Spacer()
+                Link(destination: URL(string: "HNKit://story/\(entry.myStories[storyIndex].id)")!) {
+                    if entry.myStories.isEmpty {
+                        ProgressView()
+                    } else {
+                        Text(entry.myStories[storyIndex].title)
+                            .multilineTextAlignment(.leading)
+                            .font(.system(size: 20)).bold()
+                            .foregroundStyle(._1_K)
+                            .minimumScaleFactor(0.65)
+                            .frame(maxWidth: .infinity)
+                            .padding(5)
+                    }
+                    Spacer()
+                    HStack {
+                        Text("\(entry.myStories[storyIndex].by) • \(entry.myStories[storyIndex].relativeTimeString)")
+                            .font(.system(size: 8)).bold()
+                        Spacer()
+                        HStack {
+                            Text("\(entry.myStories[storyIndex].score)")
+                            Image(systemName: "arrow.up")
+                        }
+                        .font(.system(size: 8)).bold()
+                    }
+                    .foregroundStyle(._1_K)
+                    .padding(.horizontal, 5)
+                    
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Spacer()
+                        
+                        Spacer()
+                        
+                        Spacer()
+                        
+                        HStack(alignment: .center,spacing: 8) {
+                            ForEach(0..<entry.myStories.count, id: \.self) { index in
+                                withAnimation {
+                                    if index == storyIndex {
+                                        Circle()
+                                            .foregroundStyle(._1_I)
+                                            .frame(height: 6)
+                                    }
+                                    else {
+                                        Circle()
+                                            .foregroundStyle(._1_I.opacity(0.4))
+                                            .frame(height: 5)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        Spacer()
+                        Button(intent: NextStory()){
+                            Text("next")
+                                .frame(width: 30, height: 3)
+                                .font(.system(size: 12, design: .monospaced))
+                                .padding(7)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .buttonBorderShape(.capsule)
+                        .tint(._1_F)
+                        
+                    }
+                    .padding(.horizontal, 8)
+                }
+            }
+        }
+        
+    }
+    
+    var jobView: some View {
         VStack {
-            Text("TOP STORY")
+            Text("TOP JOBS")
                 .font(.system(size: 8, design: .monospaced))
                 .foregroundStyle(.gray)
             
             
             Spacer()
-            Link(destination: URL(string: "HNKit://")!) {
-                if entry.myStories.isEmpty {
+            
+            Link(destination: URL(string: "HNKit://job/\(entry.myJobs[storyIndex].id)")!) {
+                
+                if entry.myJobs.isEmpty {
                     ProgressView()
                 } else {
-                    Text(entry.myStories[storyIndex].title)
+                    Text(entry.myJobs[storyIndex].title)
                         .multilineTextAlignment(.leading)
-                        .font(.system(size: 20)).bold()
-                        .foregroundStyle(.black)
+                        .font(.system(size: 16)).bold()
+                        .foregroundStyle(._1_K)
                         .minimumScaleFactor(0.65)
                         .frame(maxWidth: .infinity)
                         .padding(5)
                 }
                 Spacer()
                 HStack {
-                    Text("\(entry.myStories[storyIndex].by) • \(entry.myStories[storyIndex].relativeTimeString)")
-                        .font(.system(size: 8)).bold()
                     Spacer()
-                    HStack {
-                        Text("\(entry.myStories[storyIndex].score)")
-                        Image(systemName: "arrow.up")
-                    }
-                    .font(.system(size: 8)).bold()
-                }
-                .padding(.horizontal, 5)
-                
-                
-                HStack {
+                    
                     Spacer()
                     
                     Spacer()
@@ -73,16 +151,16 @@ struct MediumWidgetView: View {
                     Spacer()
                     
                     HStack(alignment: .center,spacing: 8) {
-                        ForEach(0..<entry.myStories.count, id: \.self) { index in
+                        ForEach(0..<entry.myJobs.count, id: \.self) { index in
                             withAnimation {
                                 if index == storyIndex {
                                     Circle()
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(._1_K)
                                         .frame(height: 6)
                                 }
                                 else {
                                     Circle()
-                                        .foregroundStyle(.gray)
+                                        .foregroundStyle(._1_K.opacity(0.4))
                                         .frame(height: 5)
                                 }
                             }
@@ -92,51 +170,17 @@ struct MediumWidgetView: View {
                     Spacer()
                     Button(intent: NextStory()){
                         Text("next")
-                            .font(.system(size: 12, design: .monospaced))
-                            .foregroundStyle(.gray)
                             .frame(width: 30, height: 3)
-                        
+                            .font(.system(size: 12, design: .monospaced))
+                            .padding(7)
                     }
-                    .softButtonStyle(RoundedRectangle(cornerRadius: 20), pressedEffect: .hard)
-                }
-                .padding(.horizontal, 8)
-            }
-        }
-        
-    }
-    
-    var jobView: some View {
-        VStack {
-            Text("TOP JOB")
-                .font(.system(size: 8, design: .monospaced))
-                .foregroundStyle(.gray)
-            
-            
-            Spacer()
-            
-            if entry.myJobs.isEmpty {
-                ProgressView()
-            } else {
-                Text(entry.myJobs[storyIndex].title)
-                    .multilineTextAlignment(.leading)
-                    .font(.system(size: 16)).bold()
-                    .foregroundStyle(.black)
-                    .minimumScaleFactor(0.65)
-                    .frame(maxWidth: .infinity)
-                    .padding(5)
-            }
-            Spacer()
-            HStack {
-                ProgressView(value: Float(storyIndex)/10)
-                Spacer()
-                Button(intent: NextStory()){
-                    Text("next")
-                        .font(.system(size: 12, design: .monospaced))
-                        .foregroundStyle(.gray)
-                        .frame(width: 30, height: 4)
+                    .buttonStyle(.borderedProminent)
+                    .buttonBorderShape(.capsule)
+                    .tint(._1_F)
+                    
                     
                 }
-                .softButtonStyle(RoundedRectangle(cornerRadius: 20), pressedEffect: .flat)
+                .padding(.horizontal, 8)
             }
         }
     }

@@ -4,24 +4,21 @@
 //
 //  Created by Evan Japundza on 3/24/24.
 //
-
 import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HackerNewsViewModel()
     @Environment(\.colorScheme) var colorScheme
     
-    @State var sheetPresented: Bool = false
+    @State var currentStory: Story = Story(id: 0001, title: "test", url: "www.google.com", score: 50, time: TimeInterval(), by: "eazy", descendants: 5, type: "story")
+    @State var currentJob: Job = Job(id: 0001, title: "test job", url: "www.google.com", score: 50, time: TimeInterval(), by: "evan", type: "job", text: "job")
     
-    init() {
-      // Large Navigation Title
-      UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: viewModel.selectedTheme.H]
-      // Inline Navigation Title
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: viewModel.selectedTheme.H]
-    }
+    
+    @State var sheetPresented: Bool = false
+    @State private var navigationPath = NavigationPath()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ZStack {
 
                 Color(viewModel.selectedTheme.B) // #ecefff
@@ -37,7 +34,7 @@ struct HomeView: View {
                                 Spacer()
                                 
                                 Text(Date.now.formatted(date: .long, time: .omitted))
-                                    .font(.title)
+                                    .font(.title2)
                                     .bold()
                                     .padding(.horizontal)
                                     .foregroundStyle(Color(viewModel.selectedTheme.H))
@@ -55,8 +52,8 @@ struct HomeView: View {
                             .frame(minHeight: 400)
                             .tabViewStyle(.page(indexDisplayMode: .always))
                             .onAppear {
-                                UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(red: 0.341, green: 0.235, blue: 0.98, alpha: 1)
-                                UIPageControl.appearance().pageIndicatorTintColor = UIColor(red: 0.341, green: 0.235, blue: 0.98, alpha: 1).withAlphaComponent(0.4)
+                                UIPageControl.appearance().currentPageIndicatorTintColor = viewModel.selectedTheme.H
+                                UIPageControl.appearance().pageIndicatorTintColor = viewModel.selectedTheme.H.withAlphaComponent(0.4)
                             }
                             
                             topStoriesView
@@ -66,12 +63,20 @@ struct HomeView: View {
                             Spacer()
                         }
                     }
-                    
+                    .navigationDestination(for: Job.self) { job in
+                        DetailView(job: job, itemType: ItemType.job)
+                            .environmentObject(viewModel)
+                    }
+                    .navigationDestination(for: Story.self) { story in
+                        DetailView(story: story, itemType: ItemType.story)
+                            .environmentObject(viewModel)
+                    }
                     .toolbar {
                         ToolbarItem {
                             
                             NavigationLink {
                                 SettingsView()
+                                    .tint(Color(viewModel.selectedTheme.H))
                                     .environmentObject(viewModel)
                             } label: {
                                 Image(systemName: "gearshape.fill")
@@ -79,15 +84,44 @@ struct HomeView: View {
                             }
                         }
                     }
+                    .onOpenURL(perform: { (url) in
+                        let type = url.host
+                        let id = Int(url.pathComponents[1])
+                        print(type ?? "none")
+                        Task {
+                            switch type {
+                            case "story":
+                                currentStory = await viewModel.fetchStory(withID: id!)!
+                                navigationPath.append(currentStory)
+                            case "job":
+                                currentJob = await viewModel.fetchJob(withID: id!)!
+                                navigationPath.append(currentJob)
+                            default:
+                                currentStory = await viewModel.fetchStory(withID: id!)!
+                                navigationPath.append(currentStory)
+                            }
+                            
+                        }
+                        
+                    })
+                    .refreshable {
+                        viewModel.fetchTopStories()
+                        viewModel.fetchTopJobs()
+                    }
+                    
                 }
+                
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.inline)
+            
+            
         }
         .onAppear {
             viewModel.fetchTopStories()
             viewModel.fetchTopJobs()
         }
+        
     }
     
     var topStoryView: some View {
@@ -119,6 +153,7 @@ struct HomeView: View {
                                             .font(.system(size: 48))
                                             .minimumScaleFactor(0.6)
                                             .foregroundStyle(Color(viewModel.selectedTheme.A))
+                                        
                                     }
                                     
                                     Spacer()
@@ -167,10 +202,12 @@ struct HomeView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .shadow(color: Color(viewModel.selectedTheme.L), radius: 4, x: -1, y: 2)
                 .padding(.horizontal)
+                
             }
             
             Spacer()
         }
+        
     }
     
     var topJobView: some View {
@@ -273,12 +310,11 @@ struct HomeView: View {
                             }
                             .font(.system(size: 10, design: .monospaced))
                         }
-                        .onTapGesture {  }
-                        .onLongPressGesture{ print("longPressed", story)}
                         .listRowSeparator(.automatic, edges: .all)
                         .padding(5)
                         .padding(.horizontal, -10)
                     }
+                    .frame(height: 60)
                     .foregroundStyle(Color(viewModel.selectedTheme.A))
                     .listRowBackground(Color(red: 0.357, green: 0.314, blue: 1))
                     .listRowSeparatorTint(Color(red: 0.188, green: 0.137, blue: 0.549))
@@ -339,6 +375,7 @@ struct HomeView: View {
                             .padding(8)
                             .padding(.horizontal, -15)
                     }
+                    .frame(height: 60)
                     .foregroundStyle(Color(viewModel.selectedTheme.A))
                     .listRowBackground(Color(red: 0.357, green: 0.314, blue: 1))
                     .listRowSeparatorTint(Color(red: 0.188, green: 0.137, blue: 0.549))

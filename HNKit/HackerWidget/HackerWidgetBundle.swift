@@ -12,6 +12,5 @@ import SwiftUI
 struct HackerWidgetBundle: WidgetBundle {
     var body: some Widget {
         HackerWidget()
-        HackerWidgetLiveActivity()
     }
 }

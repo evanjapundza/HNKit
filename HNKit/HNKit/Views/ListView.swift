@@ -19,17 +19,15 @@ struct ListView: View {
     let listType: ListType
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color(red: 0.925, green: 0.937, blue: 1) // #ecefff
-                    .ignoresSafeArea()
-                
-                switch listType {
-                case .story:
-                    storyList
-                case .job:
-                    jobList
-                }
+        ZStack {
+            Color(viewModel.selectedTheme.B) // #ecefff
+                .ignoresSafeArea()
+            
+            switch listType {
+            case .story:
+                storyList
+            case .job:
+                jobList
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -45,14 +43,14 @@ struct ListView: View {
                     HStack {
                         Text("TOP STORIES")
                             .font(.system(size: 28, design: .monospaced))
-                            .foregroundStyle(Color(red: 0.341, green: 0.235, blue: 0.98))
+                            .foregroundStyle(Color(viewModel.selectedTheme.G))
                         
                         Spacer()
                         
                     }
                     
                     Rectangle()
-                        .foregroundStyle(Color(red: 0.341, green: 0.235, blue: 0.98))
+                        .foregroundStyle(Color(viewModel.selectedTheme.G))
                         .frame(maxWidth: .infinity, maxHeight: 1)
                 }
                 .padding(.horizontal)
@@ -63,28 +61,33 @@ struct ListView: View {
                             DetailView(story: story, itemType: ItemType.story)
                                 .environmentObject(viewModel)
                         } label: {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text(story.title)
-                                    .multilineTextAlignment(.leading)
-                                    .font(.system(size: 14, design: .monospaced))
-                                
-                                HStack {
-                                    Text("\(story.descendants) comments")
-                                    Image(systemName: "arrow.up")
-                                    Text("\(story.score)")
-                                    Spacer()
-                                    Text(story.by)
-                                    Text("•")
-                                    Text("\(story.relativeTimeString)")
+                            HStack {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text(story.title)
+                                        .multilineTextAlignment(.leading)
+                                        .font(.system(size: 14, design: .monospaced))
+                                    
+                                    HStack {
+                                        Text("\(story.descendants) comments")
+                                        Image(systemName: "arrow.up")
+                                        Text("\(story.score)")
+                                        Spacer()
+                                        Text(story.by)
+                                        Text("•")
+                                        Text("\(story.relativeTimeString)")
+                                    }
+                                    .font(.system(size: 12, design: .monospaced))
                                 }
-                                .font(.system(size: 12, design: .monospaced))
-                                .foregroundColor(.secondary)
+                                
+                                Image(systemName: "chevron.right")
                             }
                         }
+                        .foregroundStyle(Color(viewModel.selectedTheme.H))
                         .frame(minHeight: 15)
                         .padding()
                         
                         Divider()
+                            .background(Color(viewModel.selectedTheme.G))
                         
                     }
                 }

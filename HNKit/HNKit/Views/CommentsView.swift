@@ -14,19 +14,26 @@ struct CommentsView: View {
     @State var isLoading = true
     
     var body: some View {
-        NavigationStack {
+        ZStack {
+            Color(viewModel.selectedTheme.B)
+                .ignoresSafeArea()
+            
             ScrollView {
                 LazyVStack(alignment: .leading) {
                     Text("Comments")
+                        .foregroundStyle(Color(viewModel.selectedTheme.G))
                         .bold()
                         .padding()
                     
                     Divider()
+                        .background(Color(viewModel.selectedTheme.G))
+                    
                     ForEach(viewModel.storyComments) { comment in
                         VStack {
                             
                             CommentView(comment: comment, indentationLevel: 0)
                                 .padding(10)
+                                .foregroundStyle(Color(viewModel.selectedTheme.M))
                             
                             Divider()
                         }
@@ -101,6 +108,7 @@ struct CommentView: View {
                             .font(.body)
                             .lineLimit(nil)
                             .textSelection(.enabled)
+                        
                         Spacer()
                     }
                     

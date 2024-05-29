@@ -7,7 +7,6 @@
 
 import WidgetKit
 import SwiftUI
-import Neumorphic
 
 
 final class NetworkManager {
@@ -109,35 +108,36 @@ struct Provider: AppIntentTimelineProvider {
     
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), myStories: [dummyStory], myJobs: [dummyJob])
+        SimpleEntry(date: Date(), itemType: WidgetItemType.types[0], myStories: [dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory], myJobs: [dummyJob])
     }
     
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration, myStories: [dummyStory], myJobs: [dummyJob])
+    func snapshot(for configuration: SelectItemType, in context: Context) async -> SimpleEntry {
+        SimpleEntry(date: Date(), itemType: configuration.itemType, myStories: [dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory, dummyStory], myJobs: [dummyJob])
     }
     
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
+    func timeline(for configuration: SelectItemType, in context: Context) async -> Timeline<SimpleEntry> {
         var entries: [SimpleEntry] = []
         
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         // woah
+
         
-        switch configuration.itemType {
+        switch configuration.itemType.id {
         case "Story":
             let fetchedStories = await NetworkManager.shared.fetchStories()
             
-            for hourOffset in 0 ..< 5 {
+            for hourOffset in 0 ..< 18 {
                 let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-                let entry = SimpleEntry(date: entryDate, configuration: configuration, myStories: fetchedStories, myJobs: [])
+                let entry = SimpleEntry(date: entryDate, itemType: configuration.itemType, myStories: fetchedStories, myJobs: [])
                 entries.append(entry)
             }
         case "Job":
             let fetchedJobs = await NetworkManager.shared.fetchJobs()
             
-            for hourOffset in 0 ..< 5 {
+            for hourOffset in 0 ..< 18 {
                 let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-                let entry = SimpleEntry(date: entryDate, configuration: configuration, myStories: [], myJobs: fetchedJobs)
+                let entry = SimpleEntry(date: entryDate, itemType: configuration.itemType, myStories: [], myJobs: fetchedJobs)
                 entries.append(entry)
             }
         default:
@@ -153,7 +153,7 @@ struct Provider: AppIntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let itemType: WidgetItemType
     let myStories: [Story]
     let myJobs: [Job]
 }
@@ -198,38 +198,29 @@ struct HackerWidgetEntryView : View {
     }
 }
 
+
 struct HackerWidget: Widget {
     let kind: String = "HackerWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: SelectItemType.self, provider: Provider()) { entry in
             HackerWidgetEntryView(entry: entry)
                 .containerBackground(Color.offWhite, for: .widget)
             
         }
+        .supportedFamilies([.systemSmall, .systemMedium])
+        .contentMarginsDisabled()
+        .configurationDisplayName("Top 10")
+        .description("Display the current top 10 stories or jobs.")
     }
 }
 
-
-extension ConfigurationAppIntent {
-    fileprivate static var story: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.itemType = "Story"
-        return intent
-    }
-    
-    fileprivate static var job: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.itemType = "Job"
-        return intent
-    }
-}
 
 #Preview(as: .systemSmall) {
     HackerWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .story, myStories: [dummyStory], myJobs: [dummyJob])
-    SimpleEntry(date: .now, configuration: .job, myStories: [dummyStory], myJobs: [dummyJob])
+    SimpleEntry(date: .now, itemType: WidgetItemType.types[0], myStories: [dummyStory,dummyStory,dummyStory,dummyStory,dummyStory,dummyStory,dummyStory,dummyStory,dummyStory,dummyStory], myJobs: [dummyJob])
+    SimpleEntry(date: .now, itemType: WidgetItemType.types[1], myStories: [dummyStory], myJobs: [dummyJob])
 }
 
 let dummyStory = Story(

@@ -9,11 +9,12 @@ import SwiftUI
 
 @main
 struct HNKitApp: App {
+    
     var body: some Scene {
         WindowGroup {
             HomeView()
-//                .preferredColorScheme(.light)
-                .tint(Color(red: 0.122, green: 0.086, blue: 0.314))
+                .tint(Color(red: 0.318, green: 0.212, blue: 0.961))
+            
         }
     }
 }

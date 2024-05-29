@@ -22,4 +22,5 @@ protocol Theme {
     var J: UIColor { get }
     var K: UIColor { get }
     var L: UIColor { get }
+    var M: UIColor { get }
 }

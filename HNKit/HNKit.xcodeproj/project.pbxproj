@@ -21,13 +21,12 @@
 		08CAB8D22BB0C170000CE49D /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08CAB8D12BB0C170000CE49D /* WidgetKit.framework */; };
 		08CAB8D42BB0C170000CE49D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08CAB8D32BB0C170000CE49D /* SwiftUI.framework */; };
 		08CAB8D72BB0C170000CE49D /* HackerWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CAB8D62BB0C170000CE49D /* HackerWidgetBundle.swift */; };
-		08CAB8D92BB0C170000CE49D /* HackerWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CAB8D82BB0C170000CE49D /* HackerWidgetLiveActivity.swift */; };
 		08CAB8DB2BB0C170000CE49D /* HackerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CAB8DA2BB0C170000CE49D /* HackerWidget.swift */; };
 		08CAB8DD2BB0C170000CE49D /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CAB8DC2BB0C170000CE49D /* AppIntent.swift */; };
 		08CAB8E32BB0C171000CE49D /* HackerWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 08CAB8CF2BB0C170000CE49D /* HackerWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		DA010C0A2BE8333600D28EE1 /* Neumorphic in Frameworks */ = {isa = PBXBuildFile; productRef = DA010C092BE8333600D28EE1 /* Neumorphic */; };
 		DA02D0AA2BCED95300E696F1 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA02D0A92BCED95300E696F1 /* Comment.swift */; };
 		DA02D0AB2BCED95300E696F1 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA02D0A92BCED95300E696F1 /* Comment.swift */; };
+		DA2B3AFC2BFBFDD9000AEA2D /* SelectItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B3AFB2BFBFDD9000AEA2D /* SelectItemType.swift */; };
 		DA4CECCC2BB09D0C00AC35F6 /* WidgetDigestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CECCB2BB09D0C00AC35F6 /* WidgetDigestApp.swift */; };
 		DA4CECCE2BB09D0C00AC35F6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CECCD2BB09D0C00AC35F6 /* HomeView.swift */; };
 		DA4CECD32BB09D0E00AC35F6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA4CECD22BB09D0E00AC35F6 /* Preview Assets.xcassets */; };
@@ -88,11 +87,11 @@
 		08CAB8D12BB0C170000CE49D /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		08CAB8D32BB0C170000CE49D /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		08CAB8D62BB0C170000CE49D /* HackerWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackerWidgetBundle.swift; sourceTree = "<group>"; };
-		08CAB8D82BB0C170000CE49D /* HackerWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackerWidgetLiveActivity.swift; sourceTree = "<group>"; };
 		08CAB8DA2BB0C170000CE49D /* HackerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackerWidget.swift; sourceTree = "<group>"; };
 		08CAB8DC2BB0C170000CE49D /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
 		08CAB8E02BB0C171000CE49D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA02D0A92BCED95300E696F1 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		DA2B3AFB2BFBFDD9000AEA2D /* SelectItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectItemType.swift; sourceTree = "<group>"; };
 		DA4CECC82BB09D0C00AC35F6 /* HNKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HNKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4CECCB2BB09D0C00AC35F6 /* WidgetDigestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDigestApp.swift; sourceTree = "<group>"; };
 		DA4CECCD2BB09D0C00AC35F6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -119,7 +118,6 @@
 			files = (
 				08CAB8D42BB0C170000CE49D /* SwiftUI.framework in Frameworks */,
 				08CAB8D22BB0C170000CE49D /* WidgetKit.framework in Frameworks */,
-				DA010C0A2BE8333600D28EE1 /* Neumorphic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				083774612BBCDFFE005E4CBB /* NextStory.swift */,
+				DA2B3AFB2BFBFDD9000AEA2D /* SelectItemType.swift */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -213,7 +212,6 @@
 			children = (
 				0872B5F32BC5CA760066FC2B /* WidgetViews */,
 				08CAB8D62BB0C170000CE49D /* HackerWidgetBundle.swift */,
-				08CAB8D82BB0C170000CE49D /* HackerWidgetLiveActivity.swift */,
 				08CAB8DA2BB0C170000CE49D /* HackerWidget.swift */,
 				08CAB8DC2BB0C170000CE49D /* AppIntent.swift */,
 				08CAB8E02BB0C171000CE49D /* Info.plist */,
@@ -293,7 +291,6 @@
 			);
 			name = HackerWidgetExtension;
 			packageProductDependencies = (
-				DA010C092BE8333600D28EE1 /* Neumorphic */,
 			);
 			productName = HackerWidgetExtension;
 			productReference = 08CAB8CF2BB0C170000CE49D /* HackerWidgetExtension.appex */;
@@ -314,6 +311,8 @@
 				08CAB8E22BB0C171000CE49D /* PBXTargetDependency */,
 			);
 			name = HNKit;
+			packageProductDependencies = (
+			);
 			productName = WidgetDigest;
 			productReference = DA4CECC82BB09D0C00AC35F6 /* HNKit.app */;
 			productType = "com.apple.product-type.application";
@@ -346,7 +345,6 @@
 			);
 			mainGroup = DA4CECBF2BB09D0C00AC35F6;
 			packageReferences = (
-				DA010C082BE832DE00D28EE1 /* XCRemoteSwiftPackageReference "neumorphic" */,
 			);
 			productRefGroup = DA4CECC92BB09D0C00AC35F6 /* Products */;
 			projectDirPath = "";
@@ -390,9 +388,9 @@
 				DADA91982BF4252A00429FB6 /* ThemeSelector.swift in Sources */,
 				08CAB8DD2BB0C170000CE49D /* AppIntent.swift in Sources */,
 				DADA91952BF41AAB00429FB6 /* ThemeDefinition.swift in Sources */,
-				08CAB8D92BB0C170000CE49D /* HackerWidgetLiveActivity.swift in Sources */,
 				08CAB8D72BB0C170000CE49D /* HackerWidgetBundle.swift in Sources */,
 				0837745F2BBCD023005E4CBB /* HackerNewsViewModel.swift in Sources */,
+				DA2B3AFC2BFBFDD9000AEA2D /* SelectItemType.swift in Sources */,
 				0872B5F62BC5CB040066FC2B /* SmallWidgetView.swift in Sources */,
 				0837745B2BBCD010005E4CBB /* Job.swift in Sources */,
 				DADA91992BF4277D00429FB6 /* ThemeManager.swift in Sources */,
@@ -712,25 +710,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		DA010C082BE832DE00D28EE1 /* XCRemoteSwiftPackageReference "neumorphic" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/costachung/neumorphic";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		DA010C092BE8333600D28EE1 /* Neumorphic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA010C082BE832DE00D28EE1 /* XCRemoteSwiftPackageReference "neumorphic" */;
-			productName = Neumorphic;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA4CECC02BB09D0C00AC35F6 /* Project object */;
 }

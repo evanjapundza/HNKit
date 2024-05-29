@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import Neumorphic
 
 struct SmallWidgetView: View {
     var storyIndex: Int
@@ -19,17 +18,24 @@ struct SmallWidgetView: View {
     }
     
     var body: some View {
-        // raied widget
-        // raised platform
-        switch entry.configuration.itemType {
-        case "Story":
-            storyView
-        case "Job":
-            jobView
-        default:
-            storyView
+        ZStack {
+            ContainerRelativeShape()
+                .fill(._1_B.gradient)
+            // raied widget
+            // raised platform
+            switch entry.itemType.id {
+            case "Story":
+                storyView
+                    .padding()
+            case "Job":
+                jobView
+                    .padding()
+            default:
+                storyView
+                    .padding()
+            }
         }
-
+        
         
     }
     
@@ -46,31 +52,35 @@ struct SmallWidgetView: View {
             if entry.myStories.isEmpty {
                 ProgressView()
             } else {
-                Text(entry.myStories[0].title)
-                    .multilineTextAlignment(.leading)
-                    .font(.system(size: 16)).bold()
-                    .foregroundStyle(.black)
-                    .minimumScaleFactor(0.65)
-                    .frame(maxWidth: .infinity)
-                    .padding(5)
-                
-                HStack {
-                    Text("\(entry.myStories[0].by) • \(entry.myStories[0].relativeTimeString)")
-                        .font(.system(size: 8)).bold()
+                Group {
+                    Text(entry.myStories[0].title)
+                        .multilineTextAlignment(.leading)
+                        .font(.system(size: 16)).bold()
+                        .minimumScaleFactor(0.65)
+                        .frame(maxWidth: .infinity)
+                        .padding(5)
+                    
                     Spacer()
+                    
                     HStack {
-                        Text("\(entry.myStories[0].score)")
-                        Image(systemName: "arrow.up")
+                        Text("\(entry.myStories[0].by) • \(entry.myStories[0].relativeTimeString)")
+                            .font(.system(size: 8)).bold()
+                        Spacer()
+                        HStack {
+                            Text("\(entry.myStories[0].score)")
+                            Image(systemName: "arrow.up")
+                        }
+                        .font(.system(size: 8)).bold()
                     }
-                    .font(.system(size: 8)).bold()
                 }
+                .foregroundStyle(._1_K)
             }
         
             
             
-            Spacer()
             
         }
+        .widgetURL(URL(string: "HNKit://story/\(entry.myStories[0].id)")!)
     }
     
     var jobView: some View {
@@ -85,10 +95,10 @@ struct SmallWidgetView: View {
             if entry.myJobs.isEmpty {
                 ProgressView()
             } else {
-                Text(entry.myJobs[storyIndex].title)
+                Text(entry.myJobs[0].title)
                     .multilineTextAlignment(.leading)
                     .font(.system(size: 16)).bold()
-                    .foregroundStyle(.black)
+                    .foregroundStyle(._1_K)
                     .minimumScaleFactor(0.65)
                     .frame(maxWidth: .infinity)
                     .padding(5)
@@ -98,5 +108,6 @@ struct SmallWidgetView: View {
             Spacer()
             
         }
+        .widgetURL(URL(string: "HNKit://job/\(entry.myJobs[0].id)")!)
     }
 }

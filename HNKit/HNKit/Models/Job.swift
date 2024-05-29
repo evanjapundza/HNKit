@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Job: Codable, Identifiable {
+struct Job: Hashable, Codable, Identifiable {
     
     let id: Int
     let title: String
