@@ -5,6 +5,7 @@
 //  Created by Evan Japundza on 3/24/24.
 //
 import SwiftUI
+import FirebaseAnalytics
 
 struct HomeView: View {
     @StateObject private var viewModel = HackerNewsViewModel()
@@ -12,7 +13,6 @@ struct HomeView: View {
     
     @State var currentStory: Story = Story(id: 0001, title: "test", url: "www.google.com", score: 50, time: TimeInterval(), by: "eazy", descendants: 5, type: "story")
     @State var currentJob: Job = Job(id: 0001, title: "test job", url: "www.google.com", score: 50, time: TimeInterval(), by: "evan", type: "job", text: "job")
-    
     
     @State var sheetPresented: Bool = false
     @State private var navigationPath = NavigationPath()
@@ -118,6 +118,9 @@ struct HomeView: View {
             
         }
         .onAppear {
+            Analytics.logEvent(AnalyticsEventScreenView,
+                             parameters: [AnalyticsParameterScreenName: "Home",
+                                        AnalyticsParameterScreenClass: "HomeView"])
             viewModel.fetchTopStories()
             viewModel.fetchTopJobs()
         }
@@ -204,7 +207,12 @@ struct HomeView: View {
                 .padding(.horizontal)
                 
             }
-            
+            .onTapGesture {
+                Analytics.logEvent("story_tap", parameters: [
+                    "story_id": viewModel.topStories.first?.id ?? 0,
+                    "story_title": viewModel.topStories.first?.title ?? ""
+                ])
+            }
             Spacer()
         }
         

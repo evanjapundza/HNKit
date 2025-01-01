@@ -1,6 +1,6 @@
 //
 //  SmallWidgetView.swift
-//  HNKit
+//  ObserveHN
 //
 //  Created by Luke Atkins on 4/9/24.
 //
@@ -79,7 +79,7 @@ struct SmallWidgetView: View {
             
             
         }
-        .widgetURL(URL(string: "HNKit://story/\(entry.myStories[0].id)")!)
+        .widgetURL(URL(string: "ObserveHN://story/\(entry.myStories[0].id)")!)
     }
     
     var jobView: some View {
@@ -107,6 +107,6 @@ struct SmallWidgetView: View {
             Spacer()
             
         }
-        .widgetURL(URL(string: "HNKit://job/\(entry.myJobs[0].id)")!)
+        .widgetURL(URL(string: "ObserveHN://job/\(entry.myJobs[0].id)")!)
     }
 }

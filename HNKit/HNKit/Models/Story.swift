@@ -1,6 +1,6 @@
 //
 //  Story.swift
-//  HNKit
+//  ObserveHN
 //
 //  Created by Luke Atkins on 3/24/24.
 //

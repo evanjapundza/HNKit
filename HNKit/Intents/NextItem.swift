@@ -1,6 +1,6 @@
 //
 //  NextItem.swift
-//  HNKit
+//  ObserveHN
 //
 //  Created by Luke Atkins on 4/2/24.
 //

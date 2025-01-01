@@ -1,6 +1,6 @@
 //
 //  MediumWidgetView.swift
-//  HNKit
+//  ObserveHN
 //
 //  Created by Luke Atkins on 4/9/24.
 //
@@ -46,7 +46,7 @@ struct MediumWidgetView: View {
                 
                 
                 Spacer()
-                Link(destination: URL(string: "HNKit://story/\(entry.myStories[storyIndex].id)")!) {
+                Link(destination: URL(string: "ObserveHN://story/\(entry.myStories[storyIndex].id)")!) {
                     if entry.myStories.isEmpty {
                         ProgressView()
                     } else {
@@ -127,7 +127,7 @@ struct MediumWidgetView: View {
             
             Spacer()
             
-            Link(destination: URL(string: "HNKit://job/\(entry.myJobs[storyIndex].id)")!) {
+            Link(destination: URL(string: "ObserveHN://job/\(entry.myJobs[storyIndex].id)")!) {
                 
                 if entry.myJobs.isEmpty {
                     ProgressView()

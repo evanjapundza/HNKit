@@ -1,6 +1,6 @@
 //
 //  Job.swift
-//  HNKit
+//  ObserveHN
 //
 //  Created by Evan Japundza on 4/1/24.
 //

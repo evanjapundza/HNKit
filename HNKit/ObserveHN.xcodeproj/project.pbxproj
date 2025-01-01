@@ -37,6 +37,8 @@
 		DA4CED3D2BBC60C500AC35F6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CED3C2BBC60C500AC35F6 /* Extensions.swift */; };
 		DA4CED3F2BBC627200AC35F6 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CED3E2BBC627200AC35F6 /* ListView.swift */; };
 		DA4CED412BBC73AE00AC35F6 /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4CED402BBC73AE00AC35F6 /* CommentsView.swift */; };
+		DA834AC92D25FD1C00FBE579 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DA834AC82D25FD1C00FBE579 /* FirebaseAnalytics */; };
+		DA834ACB2D25FDE600FBE579 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA834ACA2D25FDE600FBE579 /* GoogleService-Info.plist */; };
 		DADA918A2BF4171600429FB6 /* ColorThemes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DADA91892BF4171600429FB6 /* ColorThemes.xcassets */; };
 		DADA918B2BF4171600429FB6 /* ColorThemes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DADA91892BF4171600429FB6 /* ColorThemes.xcassets */; };
 		DADA918D2BF419F000429FB6 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA918C2BF419F000429FB6 /* ThemeManager.swift */; };
@@ -92,7 +94,7 @@
 		08CAB8E02BB0C171000CE49D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA02D0A92BCED95300E696F1 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		DA2B3AFB2BFBFDD9000AEA2D /* SelectItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectItemType.swift; sourceTree = "<group>"; };
-		DA4CECC82BB09D0C00AC35F6 /* HNKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HNKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA4CECC82BB09D0C00AC35F6 /* ObserveHN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObserveHN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4CECCB2BB09D0C00AC35F6 /* WidgetDigestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDigestApp.swift; sourceTree = "<group>"; };
 		DA4CECCD2BB09D0C00AC35F6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		DA4CECD22BB09D0E00AC35F6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		DA4CED3C2BBC60C500AC35F6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DA4CED3E2BBC627200AC35F6 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		DA4CED402BBC73AE00AC35F6 /* CommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
+		DA834ACA2D25FDE600FBE579 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DADA91892BF4171600429FB6 /* ColorThemes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorThemes.xcassets; sourceTree = "<group>"; };
 		DADA918C2BF419F000429FB6 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		DADA91902BF41A2200429FB6 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -125,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA834AC92D25FD1C00FBE579 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,7 +237,7 @@
 		DA4CECC92BB09D0C00AC35F6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA4CECC82BB09D0C00AC35F6 /* HNKit.app */,
+				DA4CECC82BB09D0C00AC35F6 /* ObserveHN.app */,
 				08CAB8CF2BB0C170000CE49D /* HackerWidgetExtension.appex */,
 			);
 			name = Products;
@@ -242,6 +246,7 @@
 		DA4CECCA2BB09D0C00AC35F6 /* HNKit */ = {
 			isa = PBXGroup;
 			children = (
+				DA834ACA2D25FDE600FBE579 /* GoogleService-Info.plist */,
 				DADA918F2BF41A0D00429FB6 /* Themes */,
 				083774652BBD1DFA005E4CBB /* Info.plist */,
 				DA4CECCB2BB09D0C00AC35F6 /* WidgetDigestApp.swift */,
@@ -296,9 +301,9 @@
 			productReference = 08CAB8CF2BB0C170000CE49D /* HackerWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		DA4CECC72BB09D0C00AC35F6 /* HNKit */ = {
+		DA4CECC72BB09D0C00AC35F6 /* ObserveHN */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA4CECD62BB09D0E00AC35F6 /* Build configuration list for PBXNativeTarget "HNKit" */;
+			buildConfigurationList = DA4CECD62BB09D0E00AC35F6 /* Build configuration list for PBXNativeTarget "ObserveHN" */;
 			buildPhases = (
 				DA4CECC42BB09D0C00AC35F6 /* Sources */,
 				DA4CECC52BB09D0C00AC35F6 /* Frameworks */,
@@ -310,11 +315,12 @@
 			dependencies = (
 				08CAB8E22BB0C171000CE49D /* PBXTargetDependency */,
 			);
-			name = HNKit;
+			name = ObserveHN;
 			packageProductDependencies = (
+				DA834AC82D25FD1C00FBE579 /* FirebaseAnalytics */,
 			);
 			productName = WidgetDigest;
-			productReference = DA4CECC82BB09D0C00AC35F6 /* HNKit.app */;
+			productReference = DA4CECC82BB09D0C00AC35F6 /* ObserveHN.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -345,12 +351,13 @@
 			);
 			mainGroup = DA4CECBF2BB09D0C00AC35F6;
 			packageReferences = (
+				DA834AC72D25FC6E00FBE579 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = DA4CECC92BB09D0C00AC35F6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DA4CECC72BB09D0C00AC35F6 /* HNKit */,
+				DA4CECC72BB09D0C00AC35F6 /* ObserveHN */,
 				08CAB8CE2BB0C170000CE49D /* HackerWidgetExtension */,
 			);
 		};
@@ -371,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA4CECD32BB09D0E00AC35F6 /* Preview Assets.xcassets in Resources */,
+				DA834ACB2D25FDE600FBE579 /* GoogleService-Info.plist in Resources */,
 				DADA918A2BF4171600429FB6 /* ColorThemes.xcassets in Resources */,
 				DAF95AF32BD821B700024515 /* Assets.xcassets in Resources */,
 			);
@@ -700,7 +708,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA4CECD62BB09D0E00AC35F6 /* Build configuration list for PBXNativeTarget "HNKit" */ = {
+		DA4CECD62BB09D0E00AC35F6 /* Build configuration list for PBXNativeTarget "ObserveHN" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA4CECD72BB09D0E00AC35F6 /* Debug */,
@@ -710,6 +718,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DA834AC72D25FC6E00FBE579 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DA834AC82D25FD1C00FBE579 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA834AC72D25FC6E00FBE579 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA4CECC02BB09D0C00AC35F6 /* Project object */;
 }

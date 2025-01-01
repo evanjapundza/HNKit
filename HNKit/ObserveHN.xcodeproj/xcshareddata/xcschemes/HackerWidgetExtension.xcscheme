@@ -30,8 +30,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DA4CECC72BB09D0C00AC35F6"
-               BuildableName = "HNKit.app"
-               BlueprintName = "HNKit"
+               BuildableName = "ObserveHN.app"
+               BlueprintName = "ObserveHN"
                ReferencedContainer = "container:ObserveHN.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DA4CECC72BB09D0C00AC35F6"
-            BuildableName = "HNKit.app"
-            BlueprintName = "HNKit"
+            BuildableName = "ObserveHN.app"
+            BlueprintName = "ObserveHN"
             ReferencedContainer = "container:ObserveHN.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -107,8 +107,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DA4CECC72BB09D0C00AC35F6"
-            BuildableName = "HNKit.app"
-            BlueprintName = "HNKit"
+            BuildableName = "ObserveHN.app"
+            BlueprintName = "ObserveHN"
             ReferencedContainer = "container:ObserveHN.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -1,6 +1,6 @@
 //
 //  Comment.swift
-//  HNKit
+//  ObserveHN
 //
 //  Created by Evan Japundza on 4/16/24.
 //

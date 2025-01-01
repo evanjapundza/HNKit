@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WebKit
+import FirebaseAnalytics
 
 enum ItemType {
     case story, job
@@ -19,7 +20,6 @@ struct DetailView: View {
     @State var story: Story?
     var job: Job?
     var itemType: ItemType
-    
     
     @State var isPresented: Bool = false
     
@@ -35,6 +35,24 @@ struct DetailView: View {
             case .job:
                 jobView
             }
+        }
+        .onAppear {
+            // Log view event with item details
+            var parameters: [String: Any] = [
+                AnalyticsParameterScreenName: "Detail",
+                AnalyticsParameterScreenClass: "DetailView",
+                "item_type": itemType == .story ? "story" : "job"
+            ]
+            
+            if let story = story {
+                parameters["story_id"] = story.id
+                parameters["story_title"] = story.title
+            } else if let job = job {
+                parameters["job_id"] = job.id
+                parameters["job_title"] = job.title
+            }
+            
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: parameters)
         }
     }
     
@@ -130,18 +148,15 @@ struct DetailView: View {
         }
     }
 }
-
-#Preview {
-    DetailView(story: Story(
-        id: 00001,
-        title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
-        url: nil,
-        score: 449,
-        time: 10.0,
-        by: "alt-glitch",
-        descendants: 49,
-        type: "story",
-        text: "Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy! Here is a really, really long story. It is the same sentences over and over again. Enjoy!"
-    ), itemType: ItemType.story)
-    .environmentObject(HackerNewsViewModel())
-}
+//
+//#Preview {
+//    DetailView(story: Story(
+//        id: 00001,
+//        title: "Safeguarding Identity and Privacy: Fundamental Human Rights in the Digital Age",
+//        url: nil,
+//        score: 449,
+//        time: 10.0,
+//        by: "alt-glitch",
+//        descendants: 49,
+//        type: "story",
+//    }
